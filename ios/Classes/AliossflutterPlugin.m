@@ -168,6 +168,11 @@ OSSClient *oss ;
     } else {
         NSString *bucket = call.arguments[@"bucket"];
         NSString * file = call.arguments[@"file"];
+        // 设置回调参数
+        put.callbackParam = @{
+            @"callbackUrl": call.arguments[@"callbackUrl"],
+            @"callbackBody": call.arguments[@"callbackBody"]
+        };
         OSSPutObjectRequest * put = [OSSPutObjectRequest new];
         // 必填字段
         put.bucketName = bucket;
@@ -194,11 +199,13 @@ OSSClient *oss ;
         OSSTask * putTask = [oss putObject:put];
         [putTask continueWithBlock:^id(OSSTask *task) {
             if (!task.error) {
+                OSSPutObjectResult * result = task.result;
                 NSDictionary *m1 = @{
-                                     @"result": @"success",
-                                     @"key":key,
-                                     @"id":_id
-                                     };
+                    @"servercallback": result.serverReturnJsonString,
+                    @"result": @"success",
+                    @"key":key,
+                    @"id":_id
+                };
                 [channel invokeMethod:@"onUpload" arguments:m1];
             } else {
                 
