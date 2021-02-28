@@ -168,12 +168,12 @@ OSSClient *oss ;
     } else {
         NSString *bucket = call.arguments[@"bucket"];
         NSString * file = call.arguments[@"file"];
+        OSSPutObjectRequest * put = [OSSPutObjectRequest new];
         // 设置回调参数
         put.callbackParam = @{
             @"callbackUrl": call.arguments[@"callbackUrl"],
             @"callbackBody": call.arguments[@"callbackBody"]
         };
-        OSSPutObjectRequest * put = [OSSPutObjectRequest new];
         // 必填字段
         put.bucketName = bucket;
         put.objectKey = key;
