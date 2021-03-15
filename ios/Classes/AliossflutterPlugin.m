@@ -172,7 +172,8 @@ OSSClient *oss ;
         // 设置回调参数
         put.callbackParam = @{
             @"callbackUrl": call.arguments[@"callbackUrl"],
-            @"callbackBody": call.arguments[@"callbackBody"]
+            @"callbackBody": call.arguments[@"callbackBody"],
+            @"callbackBodyType": call.arguments[@"callbackBodyType"]
         };
         // 必填字段
         put.bucketName = bucket;
